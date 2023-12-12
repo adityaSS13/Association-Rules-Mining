@@ -1,0 +1,18 @@
+from collections import defaultdict
+
+def calculate_support(data, itemset):
+    count = 0
+    itemset_size = len(itemset)
+    itemset_hash = hash(frozenset(itemset))  # Hash the itemset
+
+    # Create a dictionary to store counts of individual transactions
+    transaction_counts = defaultdict(int)
+    for transaction in data:
+        transaction_counts[hash(frozenset(transaction))] += 1  # Hash each transaction and count occurrences
+
+    # Check for support by directly comparing hashed itemset with transactions
+    for transaction_hash, occurrence in transaction_counts.items():
+        if occurrence >= itemset_size and transaction_hash == itemset_hash:
+            count += 1
+
+    return count
